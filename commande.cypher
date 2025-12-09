@@ -40,6 +40,11 @@ RETURN s.companyName, count(p) as Nb_Produits
 ORDER BY Nb_Produits DESC
 LIMIT 5;
 
+MATCH (p:Product {productName: "Tofu"})-[:PART_OF]->(c:Category)<-[:PART_OF]-(otherP:Product)
+WHERE otherP <> p
+RETURN otherP.productName AS Suggestion, otherP.unitPrice AS Prix
+ORDER BY Prix ASC;
+
 MATCH (p:Product)-[:PART_OF]->(c:Category)
 RETURN c.categoryName, avg(p.unitPrice) AS Prix_Moyen
 ORDER BY Prix_Moyen DESC;
